@@ -1,0 +1,76 @@
+/* =========================================================
+   05 NEXT DROP — flashlight reveal and countdown
+   ========================================================= */
+.next {
+  min-height: 100vh; background: var(--bg-deep); overflow: hidden;
+  padding: 130px var(--gutter) 48px;
+  display: flex; flex-direction: column;
+}
+.next-head { text-align: center; position: relative; z-index: 4; }
+.next-title {
+  margin: 0; font-weight: 900; font-stretch: 78%;
+  font-size: clamp(40px, 7vw, 112px); line-height: .9;
+}
+.next-title .txt-outline { -webkit-text-stroke-width: 2px; }
+.next-sub { margin: 14px 0 0; font-size: 10px; color: var(--dim); }
+
+.torch-room {
+  --x: 50%; --y: 50%; --r: 150px;
+  position: relative; flex: 1; min-height: 360px;
+  margin: -10px auto 0; width: min(980px, 100%);
+  cursor: none; touch-action: pan-y;
+}
+.torch-room img {
+  position: absolute; left: 50%; top: 0; height: 100%; width: auto; max-width: none;
+  transform: translateX(-50%) scale(.8);
+  user-select: none; -webkit-user-drag: none;
+}
+.torch-room::before {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 46%; height: 80%;
+  transform: translate(-50%, -50%); border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(125, 140, 255, .12), transparent);
+}
+/* the silhouette is the cutout in black; the light shows the real shoe */
+.torch-room .torch-base { filter: brightness(0) drop-shadow(0 0 1px rgba(125, 140, 255, .55)); opacity: .9; }
+.torch-room .torch-lit {
+  filter: brightness(1.1);
+  -webkit-mask-image: radial-gradient(circle var(--r) at var(--ix, 50%) var(--iy, 50%), #000 0%, rgba(0, 0, 0, .6) 45%, transparent 100%);
+          mask-image: radial-gradient(circle var(--r) at var(--ix, 50%) var(--iy, 50%), #000 0%, rgba(0, 0, 0, .6) 45%, transparent 100%);
+}
+.reticle {
+  position: absolute; left: var(--x); top: var(--y);
+  width: 34px; height: 34px; margin: -17px 0 0 -17px;
+  border: 1px solid rgba(255, 255, 255, .6); border-radius: 50%;
+  pointer-events: none; transition: opacity .3s;
+}
+.reticle i { position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; margin: -2px; border-radius: 50%; background: #fff; }
+.reticle::before, .reticle::after { content: ""; position: absolute; background: rgba(255, 255, 255, .6); }
+.reticle::before { left: 50%; top: -8px; bottom: -8px; width: 1px; transform: translateX(-.5px); -webkit-mask: linear-gradient(#000 7px, transparent 7px, transparent calc(100% - 7px), #000 0); mask: linear-gradient(#000 7px, transparent 7px, transparent calc(100% - 7px), #000 0); }
+.reticle::after { top: 50%; left: -8px; right: -8px; height: 1px; transform: translateY(-.5px); -webkit-mask: linear-gradient(90deg, #000 7px, transparent 7px, transparent calc(100% - 7px), #000 0); mask: linear-gradient(90deg, #000 7px, transparent 7px, transparent calc(100% - 7px), #000 0); }
+
+.next-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; position: relative; z-index: 4; }
+.countdown { display: flex; gap: 10px; }
+.cd {
+  position: relative; width: 74px; height: 80px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  background: rgba(255, 255, 255, .03);
+}
+.cd b { font-weight: 800; font-stretch: 85%; font-size: 30px; line-height: 1; font-variant-numeric: tabular-nums; }
+.cd span { font-size: 9px; color: var(--dim); }
+.kr-corners {
+  background-image:
+    linear-gradient(var(--ink), var(--ink)), linear-gradient(var(--ink), var(--ink)),
+    linear-gradient(var(--ink), var(--ink)), linear-gradient(var(--ink), var(--ink)),
+    linear-gradient(var(--ink), var(--ink)), linear-gradient(var(--ink), var(--ink)),
+    linear-gradient(var(--ink), var(--ink)), linear-gradient(var(--ink), var(--ink));
+  background-repeat: no-repeat;
+  background-size: 10px 1px, 1px 10px, 10px 1px, 1px 10px, 10px 1px, 1px 10px, 10px 1px, 1px 10px;
+  background-position: 0 0, 0 0, 100% 0, 100% 0, 0 100%, 0 100%, 100% 100%, 100% 100%;
+  outline: 1px solid rgba(255, 255, 255, .08);
+}
+
+@media (max-width: 600px) {
+  .countdown { gap: 6px; }
+  .cd { width: 62px; height: 70px; }
+  .cd b { font-size: 24px; }
+}

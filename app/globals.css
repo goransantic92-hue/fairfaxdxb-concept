@@ -1,0 +1,31 @@
+/* Tailwind without Preflight: the site keeps its own base styles (styles/base.css). */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* Design tokens live once, in :root (styles/base.css); Tailwind utilities point at them. */
+@theme inline {
+  --font-display: var(--f-display);
+  --font-mono: var(--f-mono);
+  --font-arabic: var(--f-arabic);
+
+  --color-ink: var(--ink);
+  --color-dim: var(--dim);
+  --color-night: var(--bg);
+  --color-deep: var(--bg-deep);
+  --color-abyss: var(--bg-ink);
+  --color-lime: var(--lime);
+  --color-orange: var(--orange);
+  --color-peri: var(--peri);
+
+  --ease-kr: cubic-bezier(.22, 1, .36, 1);
+}
+
+/* Bespoke styles for the parts Tailwind isn't a good fit for: 3D, clip-path, masks, scroll-driven vars. */
+@import "../styles/base.css";
+@import "../styles/heat.css";
+@import "../styles/story.css";
+@import "../styles/street.css";
+@import "../styles/legit.css";
+@import "../styles/next.css";
+@import "../styles/pdp.css";

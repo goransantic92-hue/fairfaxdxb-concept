@@ -1,0 +1,70 @@
+/* =========================================================
+   03 STREETS — a card that opens into full-screen photos
+   ========================================================= */
+.street { height: 620vh; background: var(--bg); }
+.street-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.sec-head--over { z-index: 8; color: rgba(244, 241, 234, .7); }
+
+.out-there {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  gap: clamp(180px, 30vw, 460px);
+  pointer-events: none;
+}
+.ot {
+  font-weight: 900; font-stretch: 78%;
+  font-size: clamp(56px, 9.5vw, 150px); line-height: 1;
+  will-change: transform;
+}
+.ot.txt-outline { -webkit-text-stroke-width: 2px; }
+
+.street-frame {
+  position: absolute; z-index: 3;
+  left: 50%; top: 50%;
+  width: 100vw; height: 100vh; height: 100svh;
+  transform: translate(-50%, -50%);
+  clip-path: inset(var(--ct, 14vh) var(--cx, 36vw) var(--cb, 14vh) var(--cx, 36vw) round var(--cr, 14px));
+  will-change: clip-path;
+}
+.slide {
+  position: absolute; inset: 0; margin: 0; overflow: hidden;
+  clip-path: inset(var(--reveal, 100%) 0 0 0);
+  will-change: clip-path;
+}
+.slide:first-child { clip-path: none; }
+.slide img {
+  width: 100%; height: 100%; object-fit: cover;
+  transform: scale(var(--s, 1.15)) translateY(var(--py, 0));
+  will-change: transform;
+}
+.street-shade {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(4, 6, 15, .55), transparent 22%, transparent 55%, rgba(4, 6, 15, .75)),
+    radial-gradient(70% 60% at 50% 60%, transparent, rgba(4, 6, 15, .35));
+  opacity: var(--shade, 0);
+}
+.street-caption {
+  position: absolute; left: 0; right: 0; bottom: 9vh; z-index: 6;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  text-align: center; padding: 0 var(--gutter);
+  opacity: 0; transition: opacity .6s;
+}
+.street-caption.on { opacity: 1; }
+.cap-meta { font-size: 11px; color: rgba(244, 241, 234, .8); }
+.cap-title {
+  margin: 0; max-width: 11em;
+  font-weight: 900; font-stretch: 78%;
+  font-size: clamp(36px, 5.6vw, 88px); line-height: .92;
+  text-shadow: 0 8px 40px rgba(0, 0, 0, .5);
+}
+.cap-title .ln { display: block; overflow: hidden; }
+.cap-title .ln > span { display: block; }
+.cap-title.swap .ln > span { animation: kr-rise .9s var(--ease) both; }
+.cap-title.swap .ln:nth-child(2) > span { animation-delay: .07s; }
+.cap-title.swap .ln:nth-child(3) > span { animation-delay: .14s; }
+.street-scroll { position: absolute; right: var(--gutter); bottom: 22px; font-size: 10px; z-index: 6; color: var(--dim); }
+
+@media (max-width: 600px) {
+  .out-there { gap: 46vw; }
+}
