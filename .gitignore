@@ -1,0 +1,16 @@
+# source downloads and backups (not used by the site)
+assets/raw/
+assets/raw-hd/
+assets/raw-street/
+assets/img/_old/
+# leftovers from the KERB base, not used here
+assets/img/street1.jpg
+assets/img/street2.jpg
+assets/img/street3.jpg
+assets/img/street4.jpg
+assets/img/wall.jpg
+assets/img/fragment3.webp
+# tooling
+.vercel
+.DS_Store
+Thumbs.db
