@@ -70,6 +70,8 @@
 }
 
 @media (max-width: 600px) {
+  /* the shoe fits the width instead of the height, so none of it is cut off */
+  .torch-room img { top: 50%; width: 100%; height: auto; transform: translate(-50%, -50%) scale(.96); }
   .countdown { gap: 6px; }
   .cd { width: 62px; height: 70px; }
   .cd b { font-size: 24px; }

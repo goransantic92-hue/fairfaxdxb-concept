@@ -58,7 +58,7 @@ const WALL: ProductInput[] = [
     v: [["7", 1890, 0], ["10.5W", 1800, 0], ["11W", 1800, 1], ["12W", 1800, 1]] },
   { id: "oxidized", name: "Jordan 4 Retro Oxidized Green", short: "Oxidized Green", brand: "JORDAN", cat: "SNEAKERS", color: "#1f6f5c", accent: "#39ff6a", ar: "جوردان 4 ريترو أخضر مؤكسد",
     v: [["10", 1800, 1]] },
-  { id: "panda", name: "Nike Dunk Low Retro White Black Panda (W)", short: "Panda", brand: "NIKE", cat: "SNEAKERS", color: "#9aa0a6", ar: "نايك دانك لو ريترو أبيض أسود باندا",
+  { id: "panda", name: "Nike Dunk Low Retro White Black Panda (2021) (W)", short: "Panda", brand: "NIKE", cat: "SNEAKERS", color: "#9aa0a6", ar: "نايك دانك لو ريترو أبيض أسود باندا",
     v: [["6W", 1800, 1]] },
   { id: "azure", name: "Yeezy Slide Azure", short: "Slide Azure", brand: "YEEZY", cat: "SNEAKERS", color: "#2340d8", accent: "#7d8cff", ar: "ييزي سلايد آزور",
     v: [["4", 1300, 0], ["5", 1300, 0], ["6", 650, 1], ["7", 650, 1], ["8", 650, 1]] },

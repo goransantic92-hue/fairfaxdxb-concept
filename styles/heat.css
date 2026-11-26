@@ -162,7 +162,19 @@
 
 @media (max-width: 860px) {
   .ring-meta--right { display: none; }
-  .carousel { --w: clamp(120px, 30vw, 200px); }
+  .ring-sticky { --mw: clamp(120px, 30vw, 200px); }
+  /* keep "Shop this pair" at least 24px above the progress bar on short phones too */
+  .ring-info { bottom: max(8vh, 60px); }
+  .carousel { --w: var(--mw); }
+  /* phones: there's no room for FAIRFAX behind the cards, so it sits in the empty band above them.
+     Its bottom edge clears the top of the front cards (half a card height plus ~18% perspective growth);
+     the size is capped so it never climbs into the "01 · THE HEAT" label. */
+  .ghost {
+    top: calc(44% - var(--mw) * 2 / 3 - var(--mw) * .18 - 14px);
+    transform: translate(-50%, -100%);
+    font-size: min(31vw, calc((44svh - var(--mw) * .85 - 132px) / .82));
+    color: rgba(255, 255, 255, .16);
+  }
 }
 @media (min-width: 861px) {
   /* --rc: vertical centre of the ring; --cw: card width. Cards never outgrow the window height. */

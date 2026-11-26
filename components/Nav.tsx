@@ -33,7 +33,7 @@ export function Nav() {
   });
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 grid grid-cols-[1fr_auto_1fr] items-center bg-linear-to-b from-[rgba(4,6,15,.55)] to-[rgba(4,6,15,0)] px-[var(--gutter)] py-[18px] font-mono text-[11px] uppercase tracking-[.08em] animate-[kr-fadein_1s_.2s_var(--ease)_both] max-[860.98px]:grid-cols-[1fr_1fr]">
+    <header className="fixed inset-x-0 top-0 z-50 grid grid-cols-[1fr_auto_1fr] items-center bg-linear-to-b from-[rgba(4,6,15,.55)] to-[rgba(4,6,15,0)] px-[var(--gutter)] py-[18px] font-mono text-[11px] uppercase tracking-[.08em] animate-[kr-fadein_1s_.2s_var(--ease)_both] max-[860.98px]:grid-cols-[1fr_1fr] max-[860.98px]:bg-[rgba(4,6,15,.72)] max-[860.98px]:backdrop-blur-md max-[860.98px]:py-3.5">
       <ScrollLink
         href="#heat"
         className="inline-flex items-baseline gap-2 justify-self-start font-display text-[22px] font-black tracking-[-.02em] [font-stretch:75%]"

@@ -32,11 +32,13 @@
   will-change: clip-path;
 }
 .slide:first-child { clip-path: none; }
+.slide { isolation: isolate; }
 .slide img {
-  width: 100%; height: 100%; object-fit: cover;
+  width: 100%; height: 100%; object-fit: cover; object-position: var(--pos, 50% 50%);
   transform: scale(var(--s, 1.15)) translateY(var(--py, 0));
   will-change: transform;
 }
+.slide-bg { display: none; }
 .street-shade {
   position: absolute; inset: 0; pointer-events: none;
   background:
@@ -67,4 +69,26 @@
 
 @media (max-width: 600px) {
   .out-there { gap: 46vw; }
+}
+
+/* Portrait screens: the photos are ~3:1 panoramas, so a full-screen crop would show a sliver of a shoe.
+   Instead each photo becomes a band just wide enough to hold the shoes (--fit = share of the photo's
+   width that must stay visible, --mx = object-position that frames them), over a blurred copy of itself. */
+@media (max-aspect-ratio: 4/5) {
+  .slide-bg {
+    display: block; position: absolute; inset: -40px; z-index: -1;
+    background: center / cover no-repeat;
+    filter: blur(22px) brightness(.42) saturate(1.15);
+  }
+  .slide img {
+    --bh: min(calc(100vw / var(--fit) / var(--ar)), 58svh);
+    position: absolute; left: 0; top: 42%;
+    height: var(--bh); margin-top: calc(var(--bh) / -2);
+    object-position: var(--mx) 50%;
+    -webkit-mask-image: linear-gradient(transparent, #000 9%, #000 91%, transparent);
+            mask-image: linear-gradient(transparent, #000 9%, #000 91%, transparent);
+  }
+  /* OUT above the card, THERE below it (the card is set from script: --card-h) */
+  .out-there { flex-direction: column; gap: calc(var(--card-h, 50svh) + 18px); }
+  .ot { font-size: clamp(44px, 12.5vw, 72px); }
 }

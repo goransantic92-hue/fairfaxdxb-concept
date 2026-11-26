@@ -3,12 +3,16 @@
 import { useRef, useState, type CSSProperties } from "react";
 import { ScrollTrigger, clamp, ease, lerp, useGSAP } from "@/lib/motion";
 
+// pos: crop on landscape screens. On portrait screens the photo becomes a band:
+// ar = width / height, fit = share of the photo's width that must stay visible (the shoes),
+// mx = object-position x for that window: (shoe-window start) / (1 - fit).
 const SLIDES = [
-  { src: "/img/ffx-street-1.jpg", pos: "55% 50%", alt: "Fragment x Travis Scott Jordan 1s hanging by their laces at Fairfax" },
-  { src: "/img/ffx-street-2.jpg", pos: "30% 50%", alt: "A pair of Jordan 1 Highs hanging in front of the Fairfax lettering" },
-  { src: "/img/ffx-street-3.jpg", pos: "50% 50%", alt: "A Jordan 1 High on a rail in the dark" },
-  { src: "/img/ffx-street-4.jpg", pos: "60% 50%", alt: "A pair of Yeezy Boost 350 V2 Bone in the dark" },
+  { src: "/img/ffx-street-1.jpg", pos: "55% 50%", ar: 3, fit: 0.46, mx: "47%", alt: "Fragment x Travis Scott Jordan 1s hanging by their laces at Fairfax" },
+  { src: "/img/ffx-street-2.jpg", pos: "30% 50%", ar: 1800 / 870, fit: 0.62, mx: "32%", alt: "A pair of Jordan 1 Highs hanging in front of the Fairfax lettering" },
+  { src: "/img/ffx-street-3.jpg", pos: "50% 50%", ar: 3, fit: 0.54, mx: "51%", alt: "A Jordan 1 High on a rail in the dark" },
+  { src: "/img/ffx-street-4.jpg", pos: "60% 50%", ar: 3, fit: 0.42, mx: "56%", alt: "A pair of Yeezy Boost 350 V2 Bone in the dark" },
 ];
+const PORTRAIT = "(max-aspect-ratio: 4/5)";
 
 const CAPTIONS: [string, string[]][] = [
   ["01 / 4 — FRAGMENT × TRAVIS SCOTT · ON THE HOOK", ["GRAILS ARE", "MEANT TO BE", "WORN."]],
@@ -36,10 +40,11 @@ export function Street() {
       const p = self.progress;
       const vw = innerWidth, vh = innerHeight;
       const e = ease(clamp(p / INTRO));
+      const portrait = matchMedia(PORTRAIT).matches;
 
-      // the card opens from a centred portrait to the full screen
-      const cardW = Math.min(vw * 0.3, vh * 0.56);
-      const cardH = vh * 0.74;
+      // the card opens from a centred portrait to the full screen (wider on phones, where 30% is a sliver)
+      const cardW = portrait ? vw * 0.66 : Math.min(vw * 0.3, vh * 0.56);
+      const cardH = portrait ? vh * 0.5 : vh * 0.74;
       const cx = ((vw - cardW) / 2) * (1 - e);
       const ct = ((vh - cardH) / 2) * (1 - e);
       const f = frame.current!;
@@ -49,10 +54,17 @@ export function Street() {
       f.style.setProperty("--cr", 14 * (1 - e) + "px");
       shade.current!.style.setProperty("--shade", String(e));
 
-      // OUT / THERE part to let it through
-      const push = e * vw * 0.32;
-      otL.current!.style.transform = `translateX(${-push - 60}px)`;
-      otR.current!.style.transform = `translateX(${push + 60}px)`;
+      // OUT / THERE part to let it through: sideways on wide screens, up and down on phones
+      if (portrait) {
+        otL.current!.parentElement!.style.setProperty("--card-h", cardH + "px");
+        const push = e * vh * 0.3;
+        otL.current!.style.transform = `translateY(${-push}px)`;
+        otR.current!.style.transform = `translateY(${push}px)`;
+      } else {
+        const push = e * vw * 0.32;
+        otL.current!.style.transform = `translateX(${-push - 60}px)`;
+        otR.current!.style.transform = `translateX(${push + 60}px)`;
+      }
       otL.current!.style.opacity = otR.current!.style.opacity = String(1 - e);
 
       // then each photo wipes up over the last
@@ -99,8 +111,15 @@ export function Street() {
 
         <div className="street-frame" ref={frame}>
           {SLIDES.map((s, i) => (
-            <figure key={s.src} className="slide" style={{ "--i": i } as CSSProperties} ref={(el) => { slides.current[i] = el; }}>
-              <img src={s.src} alt={s.alt} style={{ objectPosition: s.pos }} />
+            <figure
+              key={s.src}
+              className="slide"
+              style={{ "--i": i, "--pos": s.pos, "--ar": s.ar, "--fit": s.fit, "--mx": s.mx } as CSSProperties}
+              ref={(el) => { slides.current[i] = el; }}
+            >
+              {/* the img must stay the first child: the scroll script scales it */}
+              <img src={s.src} alt={s.alt} />
+              <i className="slide-bg" aria-hidden="true" style={{ backgroundImage: `url(${s.src})` }} />
             </figure>
           ))}
           <div className="street-shade" ref={shade} />
